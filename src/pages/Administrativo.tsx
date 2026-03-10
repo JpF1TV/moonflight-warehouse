@@ -11,13 +11,26 @@ const Administrativo: React.FC = () => {
     const request = requests.find(r => r.id === requestId);
     if (!request) return;
 
-    const part = parts.find(p => p.partNumber === request.partNumber);
-    if (!part) return;
+    // Buscar la pieza que contiene el item con ese partNumber
+    const part = parts.find(p => p.items.some(i => i.partNumber === request.partNumber));
+    if (!part) {
+      alert('No se encontró la pieza solicitada');
+      return;
+    }
 
-    const availableItems = part.items.filter(i => i.status === 'available');
+    const availableItems = part.items.filter(i => 
+      i.partNumber === request.partNumber && 
+      i.status === 'available'
+    );
     
-    if (availableItems.length >= request.quantity) {
-      // Marcar las piezas como salida
+    if (availableItems.length < request.quantity) {
+      alert(`No hay suficientes piezas disponibles. Disponibles: ${availableItems.length}, Solicitadas: ${request.quantity}`);
+      return;
+    }
+
+    // Procesar según el tipo de solicitud
+    if (request.requestType === 'exit') {
+      // Salida normal
       for (let i = 0; i < request.quantity; i++) {
         updatePartItem(part.id, availableItems[i].id, { status: 'out' });
         addHistory({
@@ -27,16 +40,41 @@ const Administrativo: React.FC = () => {
           quantity: 1,
           user: user?.username || '',
           date: new Date().toISOString(),
-          notes: `Solicitud aprobada para ${request.requestedBy}`
+          notes: `Solicitud aprobada para ${request.requestedBy} - ${request.notes || ''}`
         });
       }
-
-      updateRequest(requestId, {
-        status: 'approved',
-        approvedBy: user?.username,
-        approvalDate: new Date().toISOString()
+    } else if (request.requestType === 'overhaul') {
+      // Envío a overhaul
+      const item = availableItems[0]; // Solo se envía una pieza a overhaul
+      updatePartItem(part.id, item.id, {
+        status: 'overhaul',
+        overhaulInfo: {
+          sentDate: new Date().toISOString().split('T')[0],
+          expectedReturn: request.overhaulInfo?.expectedReturn,
+          repairShop: request.overhaulInfo?.repairShop,
+          reason: request.overhaulInfo?.reason,
+          aircraftRemoved: request.overhaulInfo?.aircraftRemoved
+        }
+      });
+      
+      addHistory({
+        partNumber: request.partNumber,
+        serialNumber: item.serialNumber,
+        action: 'overhaul',
+        quantity: 1,
+        user: user?.username || '',
+        date: new Date().toISOString(),
+        notes: `Enviado a ${request.overhaulInfo?.repairShop} - ${request.overhaulInfo?.reason}`
       });
     }
+
+    updateRequest(requestId, {
+      status: 'approved',
+      approvedBy: user?.username,
+      approvalDate: new Date().toISOString()
+    });
+
+    alert('Solicitud aprobada exitosamente');
   };
 
   const handleReject = (requestId: string) => {
@@ -45,12 +83,13 @@ const Administrativo: React.FC = () => {
       approvedBy: user?.username,
       approvalDate: new Date().toISOString()
     });
+    alert('Solicitud rechazada');
   };
 
   const getAvailableCount = (partNumber: string) => {
-    const part = parts.find(p => p.partNumber === partNumber);
+    const part = parts.find(p => p.items.some(i => i.partNumber === partNumber));
     if (!part) return 0;
-    return part.items.filter(i => i.status === 'available').length;
+    return part.items.filter(i => i.partNumber === partNumber && i.status === 'available').length;
   };
 
   const pendingRequests = requests.filter(r => r.status === 'pending');
@@ -66,11 +105,13 @@ const Administrativo: React.FC = () => {
           <thead>
             <tr>
               <th>Fecha</th>
+              <th>Tipo</th>
               <th>Solicitante</th>
-              <th>Número de Parte</th>
+              <th>P/N</th>
+              <th>S/N</th>
               <th>Cantidad</th>
               <th>Disponible</th>
-              <th>Notas</th>
+              <th>Motivo/Detalles</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -80,11 +121,27 @@ const Administrativo: React.FC = () => {
               return (
                 <tr key={request.id}>
                   <td>{new Date(request.requestDate).toLocaleDateString('es-MX')}</td>
+                  <td>
+                    <span className={`status ${request.requestType === 'exit' ? 'status-out' : 'status-overhaul'}`}>
+                      {request.requestType === 'exit' ? 'Salida' : 'Overhaul'}
+                    </span>
+                  </td>
                   <td>{request.requestedBy}</td>
-                  <td>{request.partNumber}</td>
+                  <td><strong>{request.partNumber}</strong></td>
+                  <td>{request.serialNumber || '-'}</td>
                   <td>{request.quantity}</td>
                   <td>{available}</td>
-                  <td>{request.notes || '-'}</td>
+                  <td>
+                    {request.requestType === 'exit' ? (
+                      request.notes || '-'
+                    ) : (
+                      <div style={{ fontSize: '12px' }}>
+                        <div><strong>Taller:</strong> {request.overhaulInfo?.repairShop}</div>
+                        <div><strong>Aeronave:</strong> {request.overhaulInfo?.aircraftRemoved || '-'}</div>
+                        <div><strong>Razón:</strong> {request.overhaulInfo?.reason}</div>
+                      </div>
+                    )}
+                  </td>
                   <td>
                     <div className="action-buttons">
                       <button 

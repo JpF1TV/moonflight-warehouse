@@ -43,7 +43,10 @@ const Historial: React.FC = () => {
                 <td>{new Date(entry.date).toLocaleString('es-MX')}</td>
                 <td>
                   <span className={`action action-${entry.action}`}>
-                    {entry.action === 'entry' ? 'Entrada' : entry.action === 'exit' ? 'Salida' : 'Reservado'}
+                    {entry.action === 'entry' ? 'Entrada' : 
+                     entry.action === 'exit' ? 'Salida' : 
+                     entry.action === 'overhaul' ? 'Enviado a Overhaul' :
+                     entry.action === 'overhaul_return' ? 'Retorno de Overhaul' : 'Reservado'}
                   </span>
                 </td>
                 <td>{entry.serialNumber || '-'}</td>

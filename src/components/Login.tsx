@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import Logo from './Logo';
 import './Login.css';
 
 const Login: React.FC = () => {
@@ -19,6 +20,9 @@ const Login: React.FC = () => {
   return (
     <div className="login-container">
       <div className="login-box">
+        <div className="login-logo">
+          <Logo size={80} />
+        </div>
         <h1>Moonflight</h1>
         <h2>Sistema de Almacén</h2>
         <form onSubmit={handleSubmit}>

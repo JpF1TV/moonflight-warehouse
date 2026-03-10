@@ -6,21 +6,28 @@ export interface User {
 
 export interface Part {
   id: string;
-  partNumber: string;
   description: string;
-  location: string;
-  type: 'unit' | 'bulk'; // unit = piezas individuales, bulk = tornillos/consumibles
+  type: 'unit' | 'bulk';
   items: PartItem[];
 }
 
 export interface PartItem {
   id: string;
   serialNumber: string;
-  status: 'available' | 'reserved' | 'out';
+  partNumber: string;
+  location: string;
+  status: 'available' | 'reserved' | 'out' | 'overhaul';
   entryDate: string;
   pdfUrl?: string;
   pdfName?: string;
   notes?: string;
+  overhaulInfo?: {
+    sentDate: string;
+    expectedReturn?: string;
+    repairShop?: string;
+    reason?: string;
+    aircraftRemoved?: string;
+  };
 }
 
 export interface PartRequest {
@@ -34,13 +41,20 @@ export interface PartRequest {
   approvedBy?: string;
   approvalDate?: string;
   notes?: string;
+  requestType: 'exit' | 'overhaul';
+  overhaulInfo?: {
+    repairShop?: string;
+    aircraftRemoved?: string;
+    expectedReturn?: string;
+    reason?: string;
+  };
 }
 
 export interface HistoryEntry {
   id: string;
   partNumber: string;
   serialNumber?: string;
-  action: 'entry' | 'exit' | 'reserved';
+  action: 'entry' | 'exit' | 'reserved' | 'overhaul' | 'overhaul_return';
   quantity: number;
   user: string;
   date: string;

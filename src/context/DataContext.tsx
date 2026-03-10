@@ -20,20 +20,22 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [parts, setParts] = useState<Part[]>([
     {
       id: '1',
-      partNumber: 'PN-12345',
       description: 'Motor eléctrico',
-      location: 'A-01',
       type: 'unit',
       items: [
         {
           id: '1-1',
           serialNumber: 'SN001',
+          partNumber: 'PN-12345',
+          location: 'A-01',
           status: 'available',
           entryDate: '2024-01-15'
         },
         {
           id: '1-2',
           serialNumber: 'SN002',
+          partNumber: 'PN-12346',
+          location: 'A-02',
           status: 'available',
           entryDate: '2024-01-16'
         }
@@ -41,14 +43,14 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     },
     {
       id: '2',
-      partNumber: 'PN-67890',
       description: 'Tornillos M8',
-      location: 'B-05',
       type: 'bulk',
       items: [
         {
           id: '2-1',
           serialNumber: 'BULK-001',
+          partNumber: 'PN-67890',
+          location: 'B-05',
           status: 'available',
           entryDate: '2024-01-10'
         }

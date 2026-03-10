@@ -15,8 +15,14 @@
   max-width: 400px;
 }
 
+.login-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
 .login-box h1 {
-  color: #667eea;
+  color: #1e3a5f;
   margin-bottom: 10px;
   text-align: center;
 }
@@ -44,7 +50,7 @@
 
 .login-box button {
   padding: 12px;
-  background: #667eea;
+  background: #1e3a5f;
   color: white;
   border: none;
   border-radius: 5px;
@@ -54,7 +60,7 @@
 }
 
 .login-box button:hover {
-  background: #5568d3;
+  background: #152d47;
 }
 
 .error {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Logo from './Logo';
 import './Layout.css';
 
 const Layout: React.FC = () => {
@@ -11,8 +12,11 @@ const Layout: React.FC = () => {
     <div className="layout">
       <nav className="navbar">
         <div className="nav-brand">
-          <h1>Moonflight</h1>
-          <span>{user?.username}</span>
+          <Logo size={45} />
+          <div className="brand-text">
+            <h1>Moonflight</h1>
+            <span>{user?.username}</span>
+          </div>
         </div>
         <div className="nav-links">
           {(user?.role === 'warehouse' || user?.role === 'admin') && (

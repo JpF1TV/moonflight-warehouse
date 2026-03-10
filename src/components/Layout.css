@@ -14,12 +14,23 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.nav-brand h1 {
-  font-size: 24px;
-  margin-bottom: 5px;
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.nav-brand span {
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-text h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.brand-text span {
   font-size: 12px;
   color: #bdc3c7;
 }

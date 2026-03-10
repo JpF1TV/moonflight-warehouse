@@ -18,15 +18,16 @@ const Solicitud: React.FC = () => {
       ...formData,
       requestedBy: user?.username || '',
       requestDate: new Date().toISOString(),
-      status: 'pending'
+      status: 'pending',
+      requestType: 'exit'
     });
-    setFormData({ partNumber: '', quantity: 1, notes: '' });
+    setFormData({ description: '', quantity: 1, notes: '' });
   };
 
   const myRequests = requests.filter(r => r.requestedBy === user?.username);
 
-  const getAvailableCount = (partNumber: string) => {
-    const part = parts.find(p => p.partNumber === partNumber);
+  const getAvailableCount = (description: string) => {
+    const part = parts.find(p => p.description === description);
     if (!part) return 0;
     return part.items.filter(i => i.status === 'available').length;
   };
@@ -46,9 +47,9 @@ const Solicitud: React.FC = () => {
             required
           >
             <option value="">Seleccionar pieza...</option>
-            {parts.filter(p => getAvailableCount(p.partNumber) > 0).map(part => (
-              <option key={part.id} value={part.partNumber}>
-                {part.partNumber} - {part.description} (Disponible: {getAvailableCount(part.partNumber)})
+            {parts.filter(p => getAvailableCount(p.description) > 0).map(part => (
+              <option key={part.id} value={part.items[0]?.partNumber || ''}>
+                {part.description} (Disponible: {getAvailableCount(part.description)})
               </option>
             ))}
           </select>
@@ -76,7 +77,8 @@ const Solicitud: React.FC = () => {
           <thead>
             <tr>
               <th>Fecha</th>
-              <th>Número de Parte</th>
+              <th>Tipo</th>
+              <th>P/N</th>
               <th>Cantidad</th>
               <th>Estado</th>
               <th>Aprobado Por</th>
@@ -87,6 +89,11 @@ const Solicitud: React.FC = () => {
             {myRequests.map(request => (
               <tr key={request.id}>
                 <td>{new Date(request.requestDate).toLocaleDateString('es-MX')}</td>
+                <td>
+                  <span className={`status ${request.requestType === 'exit' ? 'status-out' : 'status-overhaul'}`}>
+                    {request.requestType === 'exit' ? 'Salida' : 'Overhaul'}
+                  </span>
+                </td>
                 <td>{request.partNumber}</td>
                 <td>{request.quantity}</td>
                 <td>
