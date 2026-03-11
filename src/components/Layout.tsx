@@ -19,20 +19,29 @@ const Layout: React.FC = () => {
           </div>
         </div>
         <div className="nav-links">
-          {(user?.role === 'warehouse' || user?.role === 'admin') && (
+          {(user?.role === 'warehouse' || user?.role === 'requester' || user?.role === 'admin') && (
             <Link to="/almacen" className={location.pathname === '/almacen' ? 'active' : ''}>
               Almacén
             </Link>
           )}
-          <Link to="/historial" className={location.pathname === '/historial' ? 'active' : ''}>
-            Historial
-          </Link>
-          <Link to="/solicitud" className={location.pathname === '/solicitud' ? 'active' : ''}>
-            Solicitud de Piezas
-          </Link>
+          {(user?.role === 'warehouse' || user?.role === 'requester' || user?.role === 'admin') && (
+            <>
+              <Link to="/historial" className={location.pathname === '/historial' ? 'active' : ''}>
+                Historial
+              </Link>
+              <Link to="/mantenimiento" className={location.pathname === '/mantenimiento' ? 'active' : ''}>
+                Mantenimiento
+              </Link>
+            </>
+          )}
           {user?.role === 'admin' && (
-            <Link to="/administrativo" className={location.pathname === '/administrativo' ? 'active' : ''}>
-              Administrativo
+            <Link to="/admin-panel" className={location.pathname === '/admin-panel' ? 'active' : ''}>
+              Panel Admin
+            </Link>
+          )}
+          {user?.role === 'superadmin' && (
+            <Link to="/superadmin" className={location.pathname === '/superadmin' ? 'active' : ''}>
+              Super Admin
             </Link>
           )}
           <button onClick={logout} className="logout-btn">Cerrar Sesión</button>

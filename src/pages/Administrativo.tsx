@@ -112,6 +112,7 @@ const Administrativo: React.FC = () => {
               <th>Cantidad</th>
               <th>Disponible</th>
               <th>Motivo/Detalles</th>
+              <th>PDF Solicitud</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -141,6 +142,13 @@ const Administrativo: React.FC = () => {
                         <div><strong>Razón:</strong> {request.overhaulInfo?.reason}</div>
                       </div>
                     )}
+                  </td>
+                  <td>
+                    {request.requestPdfUrl ? (
+                      <a href={request.requestPdfUrl} download={request.requestPdfName} className="pdf-link" target="_blank" rel="noopener noreferrer">
+                        📄 Ver PDF
+                      </a>
+                    ) : '-'}
                   </td>
                   <td>
                     <div className="action-buttons">

@@ -660,3 +660,119 @@ tbody tr:hover {
   justify-content: flex-end;
   margin-top: 15px;
 }
+
+.btn-pdf {
+  background: #e74c3c;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-pdf:hover {
+  background: #c0392b;
+}
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.maintenance-form-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.info-box {
+  background: #e3f2fd;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  padding: 20px;
+  height: fit-content;
+}
+
+.info-box h4 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.info-box p {
+  color: #555;
+  font-size: 14px;
+  margin: 8px 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 968px) {
+  .maintenance-form-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Prioridades de tickets */
+.priority {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.priority-low {
+  background: #d4edda;
+  color: #155724;
+}
+
+.priority-medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.priority-high {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.priority-urgent {
+  background: #dc3545;
+  color: white;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.status-select {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.status-admin,
+.status-warehouse,
+.status-requester {
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-admin {
+  background: #667eea;
+  color: white;
+}
+
+.status-warehouse {
+  background: #f39c12;
+  color: white;
+}
+
+.status-requester {
+  background: #3498db;
+  color: white;
+}
