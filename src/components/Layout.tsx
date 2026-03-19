@@ -8,6 +8,10 @@ const Layout: React.FC = () => {
   const { user, logout } = useAuth();
   const location = useLocation();
 
+  const isActive = (path: string) => location.pathname === path ? 'active' : '';
+
+  const canAccess = (roles: string[]) => roles.includes(user?.role || '');
+
   return (
     <div className="layout">
       <nav className="navbar">
@@ -19,30 +23,29 @@ const Layout: React.FC = () => {
           </div>
         </div>
         <div className="nav-links">
-          {(user?.role === 'warehouse' || user?.role === 'requester' || user?.role === 'admin') && (
-            <Link to="/almacen" className={location.pathname === '/almacen' ? 'active' : ''}>
-              Almacén
-            </Link>
+          {canAccess(['warehouse', 'requester', 'admin']) && (
+            <Link to="/almacen" className={isActive('/almacen')}>Almacén</Link>
           )}
-          {(user?.role === 'warehouse' || user?.role === 'requester' || user?.role === 'admin') && (
-            <>
-              <Link to="/historial" className={location.pathname === '/historial' ? 'active' : ''}>
-                Historial
-              </Link>
-              <Link to="/mantenimiento" className={location.pathname === '/mantenimiento' ? 'active' : ''}>
-                Mantenimiento
-              </Link>
-            </>
+          {canAccess(['warehouse', 'requester', 'admin']) && (
+            <Link to="/historial" className={isActive('/historial')}>Historial</Link>
           )}
-          {user?.role === 'admin' && (
-            <Link to="/admin-panel" className={location.pathname === '/admin-panel' ? 'active' : ''}>
-              Panel Admin
-            </Link>
+          {canAccess(['warehouse', 'requester', 'admin']) && (
+            <Link to="/mantenimiento" className={isActive('/mantenimiento')}>Mantenimiento</Link>
           )}
-          {user?.role === 'superadmin' && (
-            <Link to="/superadmin" className={location.pathname === '/superadmin' ? 'active' : ''}>
-              Super Admin
-            </Link>
+          {canAccess(['warehouse', 'admin']) && (
+            <Link to="/operaciones" className={isActive('/operaciones')}>Operaciones</Link>
+          )}
+          {canAccess(['warehouse', 'admin']) && (
+            <Link to="/ingenieria" className={isActive('/ingenieria')}>Ingeniería</Link>
+          )}
+          {canAccess(['warehouse', 'admin']) && (
+            <Link to="/oma" className={isActive('/oma')}>OMA</Link>
+          )}
+          {canAccess(['admin']) && (
+            <Link to="/admin-panel" className={isActive('/admin-panel')}>Panel Admin</Link>
+          )}
+          {canAccess(['superadmin']) && (
+            <Link to="/superadmin" className={isActive('/superadmin')}>Super Admin</Link>
           )}
           <button onClick={logout} className="logout-btn">Cerrar Sesión</button>
         </div>
