@@ -47,6 +47,9 @@ const Login: React.FC = () => {
           <p>Usuarios demo:</p>
           <small>admin/admin123 | almacen/almacen123 | usuario/usuario123</small>
         </div>
+        <div className="app-credits">
+          Diseñado por Juan & Carlos
+        </div>
       </div>
     </div>
   );

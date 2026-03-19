@@ -97,3 +97,11 @@
   color: #666;
   font-size: 12px;
 }
+
+.app-credits {
+  margin-top: 12px;
+  text-align: center;
+  color: #aaa;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+}
