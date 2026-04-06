@@ -36,7 +36,7 @@ const Historial: React.FC = () => {
       <html>
       <head>
         <meta charset="UTF-8">
-        <title>Historial Moonflight - Últimas 24 Horas</title>
+        <title>Historial SIGA - Últimas 24 Horas</title>
         <style>
           body {
             font-family: Arial, sans-serif;
@@ -94,7 +94,7 @@ const Historial: React.FC = () => {
       </head>
       <body>
         <div class="header">
-          <h1>🌙 MOONFLIGHT</h1>
+          <h1>🌙 SIGA</h1>
           <h2>Historial de Movimientos</h2>
           <p>Últimas 24 Horas</p>
           <p>Generado: ${new Date().toLocaleString('es-MX')}</p>
@@ -134,7 +134,7 @@ const Historial: React.FC = () => {
         </table>
         
         <div class="footer">
-          <p>Moonflight - Sistema de Control de Almacén</p>
+          <p>SIGA - Sistema de Control de Almacén</p>
           <p>Este documento es un registro oficial de los movimientos de inventario</p>
         </div>
       </body>
@@ -148,7 +148,7 @@ const Historial: React.FC = () => {
     // Crear un enlace temporal y hacer click para descargar
     const link = document.createElement('a');
     link.href = url;
-    link.download = `Historial_Moonflight_${new Date().toISOString().split('T')[0]}.html`;
+    link.download = `Historial_SIGA_${new Date().toISOString().split('T')[0]}.html`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

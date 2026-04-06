@@ -21,7 +21,7 @@ const initialUsers: User[] = [
     password: 'super123', 
     role: 'superadmin',
     fullName: 'Usuario Madre',
-    email: 'superadmin@moonflight.com',
+    email: 'superadmin@siga.com',
     createdDate: '2024-01-01',
     isActive: true
   },
@@ -31,7 +31,7 @@ const initialUsers: User[] = [
     password: 'admin123', 
     role: 'admin',
     fullName: 'Administrador',
-    email: 'admin@moonflight.com',
+    email: 'admin@siga.com',
     createdDate: '2024-01-01',
     isActive: true
   },
@@ -41,7 +41,7 @@ const initialUsers: User[] = [
     password: 'almacen123', 
     role: 'warehouse',
     fullName: 'Personal de Almacén',
-    email: 'almacen@moonflight.com',
+    email: 'almacen@siga.com',
     createdDate: '2024-01-01',
     isActive: true
   },
@@ -51,7 +51,7 @@ const initialUsers: User[] = [
     password: 'usuario123', 
     role: 'requester',
     fullName: 'Usuario Solicitante',
-    email: 'usuario@moonflight.com',
+    email: 'usuario@siga.com',
     createdDate: '2024-01-01',
     isActive: true
   },

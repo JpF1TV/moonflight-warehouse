@@ -23,7 +23,7 @@ const Login: React.FC = () => {
         <div className="login-logo">
           <Logo size={80} />
         </div>
-        <h1>Moonflight</h1>
+        <h1>SIGA</h1>
         <h2>Sistema de Almacén</h2>
         <form onSubmit={handleSubmit}>
           <input

@@ -18,7 +18,7 @@ const Layout: React.FC = () => {
         <div className="nav-brand">
           <Logo size={45} />
           <div className="brand-text">
-            <h1>Moonflight</h1>
+            <h1>SIGA</h1>
             <span>{user?.username}</span>
           </div>
         </div>
