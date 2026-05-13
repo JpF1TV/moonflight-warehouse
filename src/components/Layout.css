@@ -4,74 +4,97 @@
   flex-direction: column;
 }
 
+/* ── Navbar ─────────────────────────────────────────────────────────────────── */
 .navbar {
-  background: #2c3e50;
+  background: var(--gray-900);
   color: white;
-  padding: 15px 30px;
+  padding: 0 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  height: 62px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 0 rgba(255,255,255,.06), var(--shadow-lg);
 }
 
 .nav-brand {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .brand-text {
   display: flex;
   flex-direction: column;
+  line-height: 1.2;
 }
 
 .brand-text h1 {
-  font-size: 24px;
-  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  color: white;
 }
 
 .brand-text span {
-  font-size: 12px;
-  color: #bdc3c7;
+  font-size: 11px;
+  color: var(--gray-400);
+  font-weight: 400;
 }
 
 .nav-links {
   display: flex;
-  gap: 20px;
+  gap: 4px;
   align-items: center;
 }
 
 .nav-links a {
-  color: white;
+  color: var(--gray-300);
   text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  transition: background 0.3s;
+  padding: 7px 13px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all .2s;
+  white-space: nowrap;
 }
 
-.nav-links a:hover,
+.nav-links a:hover {
+  color: white;
+  background: rgba(255,255,255,.08);
+}
+
 .nav-links a.active {
-  background: #34495e;
+  color: white;
+  background: var(--primary);
 }
 
 .logout-btn {
-  background: #e74c3c;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
+  background: transparent;
+  color: var(--gray-400);
+  border: 1px solid rgba(255,255,255,.12);
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background 0.3s;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all .2s;
+  margin-left: 8px;
 }
 
 .logout-btn:hover {
-  background: #c0392b;
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
 }
 
+/* ── Main ───────────────────────────────────────────────────────────────────── */
 .main-content {
   flex: 1;
-  padding: 30px;
-  max-width: 1400px;
+  padding: 28px 32px;
+  max-width: 1440px;
   width: 100%;
   margin: 0 auto;
 }
