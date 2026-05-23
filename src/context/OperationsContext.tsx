@@ -5,6 +5,7 @@ interface OperationsContextType {
   pilots: Pilot[];
   aircraft: Aircraft[];
   flightLogs: FlightLog[];
+  nextRegistroNumber: number;
   addPilot: (p: Omit<Pilot, 'id'>) => void;
   updatePilot: (id: string, updates: Partial<Pilot>) => void;
   deletePilot: (id: string) => void;
@@ -17,8 +18,8 @@ interface OperationsContextType {
 const OperationsContext = createContext<OperationsContextType | undefined>(undefined);
 
 const samplePilots: Pilot[] = [
-  { id: '1', name: 'Carlos Rodríguez', licenseNumber: 'ATP-001', isActive: true, totalBlockHours: 1250, totalNoctHours: 320, totalIfrHours: 480, totalVfrHours: 450 },
-  { id: '2', name: 'María González', licenseNumber: 'ATP-002', isActive: true, totalBlockHours: 980, totalNoctHours: 210, totalIfrHours: 390, totalVfrHours: 380 },
+  { id: '1', name: 'Carlos Rodríguez', licenseNumber: 'ATP-001', isActive: true, totalBlockHours: 1250, totalFlightHours: 1180, totalCycles: 3210 },
+  { id: '2', name: 'María González', licenseNumber: 'ATP-002', isActive: true, totalBlockHours: 980, totalFlightHours: 920, totalCycles: 2540 },
 ];
 
 const sampleAircraft: Aircraft[] = [
@@ -30,6 +31,7 @@ export const OperationsProvider: React.FC<{ children: ReactNode }> = ({ children
   const [pilots, setPilots] = useState<Pilot[]>(samplePilots);
   const [aircraft, setAircraft] = useState<Aircraft[]>(sampleAircraft);
   const [flightLogs, setFlightLogs] = useState<FlightLog[]>([]);
+  const [nextRegistroNumber, setNextRegistroNumber] = useState(1);
 
   const addPilot = (p: Omit<Pilot, 'id'>) =>
     setPilots(prev => [...prev, { ...p, id: Date.now().toString() }]);
@@ -47,25 +49,33 @@ export const OperationsProvider: React.FC<{ children: ReactNode }> = ({ children
     setAircraft(prev => prev.map(a => a.id === id ? { ...a, ...updates } : a));
 
   const addFlightLog = (log: Omit<FlightLog, 'id'>) => {
-    const newLog = { ...log, id: Date.now().toString() };
+    const newLog: FlightLog = { ...log, id: Date.now().toString() };
     setFlightLogs(prev => [newLog, ...prev]);
-    // Actualizar horas del piloto
+    setNextRegistroNumber(n => n + 1);
+
+    // Actualizar horas y ciclos del piloto
+    const flightHours = log.totalFlightMinutes / 60;
+    const blockHours = log.totalBlockMinutes / 60;
     setPilots(prev => prev.map(p => {
       if (p.id === log.pilotId) {
         return {
           ...p,
-          totalBlockHours: p.totalBlockHours + log.blockHours,
-          totalNoctHours: log.flightType === 'NOCT' ? p.totalNoctHours + log.blockHours : p.totalNoctHours,
-          totalIfrHours: log.flightType === 'IFR' ? p.totalIfrHours + log.blockHours : p.totalIfrHours,
-          totalVfrHours: log.flightType === 'VFR' ? p.totalVfrHours + log.blockHours : p.totalVfrHours,
+          totalBlockHours: p.totalBlockHours + blockHours,
+          totalFlightHours: p.totalFlightHours + flightHours,
+          totalCycles: p.totalCycles + log.totalCycles,
         };
       }
       return p;
     }));
-    // Actualizar horas del avión
+
+    // Actualizar horas y ciclos de la aeronave
     setAircraft(prev => prev.map(a => {
       if (a.id === log.aircraftId) {
-        return { ...a, totalHours: a.totalHours + log.blockHours, totalCycles: a.totalCycles + 1 };
+        return {
+          ...a,
+          totalHours: a.totalHours + blockHours,
+          totalCycles: a.totalCycles + log.totalCycles,
+        };
       }
       return a;
     }));
@@ -75,7 +85,12 @@ export const OperationsProvider: React.FC<{ children: ReactNode }> = ({ children
     setFlightLogs(prev => prev.map(l => l.id === id ? { ...l, ...updates } : l));
 
   return (
-    <OperationsContext.Provider value={{ pilots, aircraft, flightLogs, addPilot, updatePilot, deletePilot, addAircraft, updateAircraft, addFlightLog, updateFlightLog }}>
+    <OperationsContext.Provider value={{
+      pilots, aircraft, flightLogs, nextRegistroNumber,
+      addPilot, updatePilot, deletePilot,
+      addAircraft, updateAircraft,
+      addFlightLog, updateFlightLog,
+    }}>
       {children}
     </OperationsContext.Provider>
   );

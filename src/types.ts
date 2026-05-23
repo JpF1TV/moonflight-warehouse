@@ -104,9 +104,8 @@ export interface Pilot {
   phone?: string;
   isActive: boolean;
   totalBlockHours: number;
-  totalNoctHours: number;
-  totalIfrHours: number;
-  totalVfrHours: number;
+  totalFlightHours: number;
+  totalCycles: number;
 }
 
 export interface Aircraft {
@@ -119,23 +118,61 @@ export interface Aircraft {
   totalCycles: number;
 }
 
+/** Un trayecto dentro de un registro de vuelo */
+export interface FlightLeg {
+  id: string;
+  /** Número de trayecto dentro del registro (1, 2, 3…) */
+  legNumber: number;
+  origin: string;
+  destination: string;
+  /** Hora militar HHmm, ej: "0830" */
+  blockStart: string;
+  /** Hora militar HHmm */
+  flightStart: string;
+  /** Hora militar HHmm */
+  flightEnd: string;
+  /** Hora militar HHmm */
+  blockEnd: string;
+  /** Combustible al inicio del trayecto (galones/libras) */
+  fuelInitial: number;
+  /** Combustible al final del trayecto */
+  fuelFinal: number;
+  /** Calculado: fuelInitial - fuelFinal */
+  fuelBurned: number;
+  /** Ciclo acumulado del registro (auto) */
+  cycle: number;
+  /** RIN acumulado del registro (auto, igual a cycle) */
+  rin: number;
+  /** Tiempo de vuelo del trayecto en minutos (flightEnd - flightStart) */
+  flightMinutes: number;
+  /** Tiempo de bloque del trayecto en minutos (blockEnd - blockStart) */
+  blockMinutes: number;
+}
+
+/** Registro de vuelo: encabezado + lista de trayectos */
 export interface FlightLog {
   id: string;
+  /** Número de registro auto-incremental */
+  registroNumber: number;
+  /** Número de vuelo del libro físico */
   flightNumber: string;
   aircraftId: string;
   aircraftRegistration: string;
   pilotId: string;
   pilotName: string;
+  hasCoPilot: boolean;
   coPilotId?: string;
   coPilotName?: string;
-  origin: string;
-  destination: string;
-  departureTime: string;
-  arrivalTime: string;
-  blockHours: number;
-  flightType: 'VFR' | 'IFR' | 'NOCT';
-  passengers: number;
-  occupancyRate: number;
+  /** Lista de trayectos del día */
+  legs: FlightLeg[];
+  /** Tiempo total de vuelo en minutos (suma de legs) */
+  totalFlightMinutes: number;
+  /** Tiempo total de bloque en minutos (suma de legs) */
+  totalBlockMinutes: number;
+  /** Tiempo cliente = tiempo de vuelo total (en minutos) */
+  clientMinutes: number;
+  /** Total ciclos del registro */
+  totalCycles: number;
   notes?: string;
   createdBy: string;
   createdDate: string;
