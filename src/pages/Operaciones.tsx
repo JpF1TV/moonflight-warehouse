@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useOperations } from '../context/OperationsContext';
 import { useAuth } from '../context/AuthContext';
-import { FlightLog, Pilot, Aircraft } from '../types';
+import { FlightLog } from '../types';
 import './Pages.css';
 
 type Tab = 'libro' | 'pilotos' | 'aeronaves' | 'informes';

@@ -358,7 +358,7 @@ const Almacen: React.FC = () => {
             <div className="part-header-compact" onClick={() => setExpandedPart(expandedPart === part.id ? null : part.id)}>
               <div className="part-info-compact">
                 <h4>{part.description}</h4>
-                <span className="part-meta">📍 {part.location} | {part.type === 'unit' ? '🔧 Unitaria' : '📦 Consumible'} | ✓ {getAvailableCount(part)}/{part.items.length}</span>
+                <span className="part-meta">{part.type === 'unit' ? '🔧 Unitaria' : '📦 Consumible'} | ✓ {getAvailableCount(part)}/{part.items.length}</span>
               </div>
               <button className="expand-btn-compact">
                 {expandedPart === part.id ? '▼' : '▶'}

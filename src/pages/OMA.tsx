@@ -3,7 +3,7 @@ import { useOMA } from '../context/OMAContext';
 import { useOperations } from '../context/OperationsContext';
 import { useData } from '../context/DataContext';
 import { useAuth } from '../context/AuthContext';
-import { WorkOrder } from '../types';
+import { WorkOrder, WorkOrderPart } from '../types';
 import './Pages.css';
 
 const OMA: React.FC = () => {
@@ -26,7 +26,7 @@ const OMA: React.FC = () => {
   // Verificar disponibilidad de piezas en almacén
   const checkPartsAvailability = (wo: WorkOrder): boolean => {
     if (wo.partsRequired.length === 0) return true;
-    return wo.partsRequired.every(req => {
+    return wo.partsRequired.every((req: WorkOrderPart) => {
       const part = parts.find(p => p.items.some(i => i.partNumber === req.partNumber));
       if (!part) return false;
       const available = part.items.filter(i => i.status === 'available').length;
@@ -64,14 +64,14 @@ const OMA: React.FC = () => {
   );
 
   const priorityLabel = (p: WorkOrder['priority']) => {
-    const map = { low: 'Baja', medium: 'Media', high: 'Alta', critical: 'Crítica' };
-    const cls = { low: 'priority-low', medium: 'priority-medium', high: 'priority-high', critical: 'priority-urgent' };
+    const map: Record<WorkOrder['priority'], string> = { low: 'Baja', medium: 'Media', high: 'Alta', critical: 'Crítica' };
+    const cls: Record<WorkOrder['priority'], string> = { low: 'priority-low', medium: 'priority-medium', high: 'priority-high', critical: 'priority-urgent' };
     return <span className={`priority ${cls[p]}`}>{map[p]}</span>;
   };
 
   const statusLabel = (s: WorkOrder['status']) => {
-    const map = { pending: 'Pendiente', in_progress: 'En Progreso', completed: 'Completada', cancelled: 'Cancelada' };
-    const cls = { pending: 'status-pending', in_progress: 'status-reserved', completed: 'status-approved', cancelled: 'status-rejected' };
+    const map: Record<WorkOrder['status'], string> = { pending: 'Pendiente', in_progress: 'En Progreso', completed: 'Completada', cancelled: 'Cancelada' };
+    const cls: Record<WorkOrder['status'], string> = { pending: 'status-pending', in_progress: 'status-reserved', completed: 'status-approved', cancelled: 'status-rejected' };
     return <span className={`status ${cls[s]}`}>{map[s]}</span>;
   };
 
@@ -151,8 +151,8 @@ const OMA: React.FC = () => {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 15, marginBottom: 25 }}>
         {(['pending', 'in_progress', 'completed', 'cancelled'] as WorkOrder['status'][]).map(s => {
           const count = workOrders.filter(w => w.status === s).length;
-          const colors = { pending: '#fff3cd', in_progress: '#cce5ff', completed: '#d4edda', cancelled: '#f8d7da' };
-          const labels = { pending: 'Pendientes', in_progress: 'En Progreso', completed: 'Completadas', cancelled: 'Canceladas' };
+          const colors: Record<WorkOrder['status'], string> = { pending: '#fff3cd', in_progress: '#cce5ff', completed: '#d4edda', cancelled: '#f8d7da' };
+          const labels: Record<WorkOrder['status'], string> = { pending: 'Pendientes', in_progress: 'En Progreso', completed: 'Completadas', cancelled: 'Canceladas' };
           return (
             <div key={s} style={{ background: colors[s], borderRadius: 8, padding: 16, textAlign: 'center' }}>
               <div style={{ fontSize: 28, fontWeight: 'bold' }}>{count}</div>

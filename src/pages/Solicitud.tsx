@@ -21,7 +21,7 @@ const Solicitud: React.FC = () => {
       status: 'pending',
       requestType: 'exit'
     });
-    setFormData({ description: '', quantity: 1, notes: '' });
+    setFormData({ partNumber: '', quantity: 1, notes: '' });
   };
 
   const myRequests = requests.filter(r => r.requestedBy === user?.username);

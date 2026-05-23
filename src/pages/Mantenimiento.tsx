@@ -17,10 +17,10 @@ const Mantenimiento: React.FC = () => {
   });
 
   const [ticketForm, setTicketForm] = useState({
-    type: 'other' as 'user_blocked' | 'platform_error' | 'feature_request' | 'other',
+    type: 'other' as 'user_block' | 'platform_failure' | 'request' | 'other',
     title: '',
     description: '',
-    priority: 'medium' as 'low' | 'medium' | 'high' | 'urgent'
+    priority: 'medium' as 'low' | 'medium' | 'high' | 'critical'
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -226,9 +226,9 @@ const Mantenimiento: React.FC = () => {
                 onChange={(e) => setTicketForm({ ...ticketForm, type: e.target.value as any })}
                 required
               >
-                <option value="user_blocked">🔒 Usuario Bloqueado</option>
-                <option value="platform_error">⚠️ Error en la Plataforma</option>
-                <option value="feature_request">💡 Solicitud de Funcionalidad</option>
+                <option value="user_block">🔒 Usuario Bloqueado</option>
+                <option value="platform_failure">⚠️ Error en la Plataforma</option>
+                <option value="request">💡 Solicitud de Funcionalidad</option>
                 <option value="other">📝 Otro</option>
               </select>
               <select
@@ -239,7 +239,7 @@ const Mantenimiento: React.FC = () => {
                 <option value="low">Prioridad Baja</option>
                 <option value="medium">Prioridad Media</option>
                 <option value="high">Prioridad Alta</option>
-                <option value="urgent">URGENTE</option>
+                <option value="critical">CRÍTICA</option>
               </select>
               <input
                 type="text"
@@ -280,14 +280,14 @@ const Mantenimiento: React.FC = () => {
                   <tr key={ticket.id}>
                     <td><strong>{ticket.ticketNumber}</strong></td>
                     <td style={{ fontSize: '12px' }}>
-                      {ticket.type === 'user_blocked' ? '🔒 Usuario Bloqueado' :
-                       ticket.type === 'platform_error' ? '⚠️ Error Plataforma' :
-                       ticket.type === 'feature_request' ? '💡 Solicitud' : '📝 Otro'}
+                      {ticket.type === 'user_block' ? '🔒 Usuario Bloqueado' :
+                       ticket.type === 'platform_failure' ? '⚠️ Error Plataforma' :
+                       ticket.type === 'request' ? '💡 Solicitud' : '📝 Otro'}
                     </td>
                     <td>{ticket.title}</td>
                     <td>
                       <span className={`priority priority-${ticket.priority}`}>
-                        {ticket.priority === 'urgent' ? 'URGENTE' :
+                        {ticket.priority === 'critical' ? 'CRÍTICA' :
                          ticket.priority === 'high' ? 'Alta' :
                          ticket.priority === 'medium' ? 'Media' : 'Baja'}
                       </span>

@@ -40,11 +40,11 @@ const SuperAdmin: React.FC = () => {
     if (user) {
       setUserForm({
         username: user.username,
-        password: user.password,
-        fullName: user.fullName,
+        password: user.password ?? '',
+        fullName: user.fullName ?? '',
         email: user.email || '',
         role: user.role as any,
-        isActive: user.isActive
+        isActive: user.isActive ?? true
       });
       setEditingUser(userId);
       setShowUserForm(true);
@@ -234,15 +234,15 @@ const SuperAdmin: React.FC = () => {
                 <tr key={ticket.id}>
                   <td><strong>{ticket.ticketNumber}</strong></td>
                   <td style={{ fontSize: '12px' }}>
-                    {ticket.type === 'user_blocked' ? '🔒 Usuario Bloqueado' :
-                     ticket.type === 'platform_error' ? '⚠️ Error Plataforma' :
-                     ticket.type === 'feature_request' ? '💡 Solicitud' : '📝 Otro'}
+                    {ticket.type === 'user_block' ? '🔒 Usuario Bloqueado' :
+                     ticket.type === 'platform_failure' ? '⚠️ Error Plataforma' :
+                     ticket.type === 'request' ? '💡 Solicitud' : '📝 Otro'}
                   </td>
                   <td>{ticket.title}</td>
                   <td style={{ fontSize: '12px', maxWidth: '200px' }}>{ticket.description}</td>
                   <td>
                     <span className={`priority priority-${ticket.priority}`}>
-                      {ticket.priority === 'urgent' ? 'URGENTE' :
+                      {ticket.priority === 'critical' ? 'CRÍTICA' :
                        ticket.priority === 'high' ? 'Alta' :
                        ticket.priority === 'medium' ? 'Media' : 'Baja'}
                     </span>
